@@ -1,6 +1,7 @@
 package com.Test.service.impl;
 
 import com.Test.entity.Post;
+import com.Test.exception.ResourceNotFoundException;
 import com.Test.payload.PostDto;
 import com.Test.repository.PostRepository;
 import com.Test.service.PostService;
@@ -53,5 +54,14 @@ public class PostServiceImpl implements PostService {
         Page<Post> all = postRepository.findAll(pageable);
         List<PostDto> collect = all.stream().map(p -> mapToDto(p)).collect(Collectors.toList());
         return collect;
+    }
+
+    @Override
+    public void deletePost(long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post is not found with these id" + postId)
+        );
+
+        postRepository.deleteById(postId);
     }
 }
