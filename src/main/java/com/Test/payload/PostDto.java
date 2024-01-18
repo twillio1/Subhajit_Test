@@ -14,4 +14,5 @@ public class PostDto {
     private String description;
     @Size(min = 4, max = 50, message = "content not less than 2")
     private String content;
+    private String message;
 }
